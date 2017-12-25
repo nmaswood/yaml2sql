@@ -1,12 +1,8 @@
-# Yaml2sql
+# yaml2sql
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/yaml2sql`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Writing boiler plate SQL for webscrapers (or just simple apps) is a pain. Make your life less stressful by specifying your sql as YAML and having this ruby lib create tables and basic insert statements as functions for you.
 
 ## Installation
-
-Add this line to your application's Gemfile:
 
 ```ruby
 gem 'yaml2sql'
@@ -22,7 +18,42 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Specify your sql
+
+```yaml
+ name: poetry_project
+ tables:
+   - name: authors
+
+     columns:
+       - name: name
+         type: text
+       - name: url
+         type: text
+         unique: true
+
+     indexes:
+       - name: author_url_index
+         table: authors
+         key: url
+       - name: author_name_index
+         table: authors
+         key: name
+
+     select_from:
+       url
+```
+
+Initialize a `Query` object
+
+```ruby
+q = Query(PATH_TO_YAML)
+# table is automatically created
+q.insert_authors('Plato', 'www.books.com/plato')
+
+plato_id = q.select_authors('Plato')
+
+```
 
 ## Development
 
@@ -32,7 +63,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/yaml2sql.
+Bug reports and pull requests are welcome on GitHub at https://github.com/nmaswood/yaml2sql.
 
 ## License
 
