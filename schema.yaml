@@ -1,0 +1,50 @@
+name: poetry_project
+tables:
+  - name: authors
+
+    columns:
+      - name: name
+        type: text
+      - name: url
+        type: text
+        unique: true
+
+    indexes:
+      - name: author_url_index
+        table: authors
+        key: url
+      - name: author_name_index
+        table: authors
+        key: name
+
+    select_from:
+      url
+
+  - name: poems
+
+    columns:
+      - name: name
+        type: text
+      - name: url
+        type: text
+        unique: true
+      - name: byline
+        type: text
+      - name: author_id
+        type: integer
+
+    indexes:
+      - name: poem_name_index
+        table: poems
+        key: name
+      - name: poem_url_index
+        table: poems
+        key: url
+
+    foreign:
+      - name: author_id
+        table: authors
+        key: id
+
+    select_from:
+      url
