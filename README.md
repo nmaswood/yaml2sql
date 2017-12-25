@@ -47,11 +47,18 @@ Specify your sql
 Initialize a `Query` object
 
 ```ruby
-q = Query(PATH_TO_YAML)
-# table is automatically created
-q.insert_authors('Plato', 'www.books.com/plato')
+create_table_statements = Query(PATH_TO_YAML)
 
-plato_id = q.select_authors('Plato')
+db.exec create_table_statements
+
+
+ins_statement = q.insert_authors('Plato', 'www.books.com/plato')
+
+db.exec ins_statement
+
+
+select_statement = q.select_authors('Plato')
+db.exec select_statement
 
 ```
 
